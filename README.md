@@ -23,6 +23,11 @@ Historical SBI data copied into this repository is sourced from:
 
 - https://github.com/sahilgupta/sbi-fx-ratekeeper
 
+Source split:
+
+- Up to 2026-03-30: data created from the source GitHub repository above
+- From 2026-03-31 onwards: data is obtained directly from SBI site via scheduled automation
+
 Please refer to the source repository for original collection logic, credits, and historical provenance notes.
 
 ## Automation

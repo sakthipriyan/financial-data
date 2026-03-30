@@ -3,15 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>data.sakthipriyan.com</title>
+  <title>financial-data docs</title>
   <style>
     :root {
-      --bg: #f5f7f0;
-      --ink: #1d2527;
-      --muted: #546468;
+      --bg: #f7f8f2;
       --card: #ffffff;
-      --line: #d6dfd2;
-      --brand: #1f6f5f;
+      --ink: #1d2a2f;
+      --muted: #5f6f76;
+      --line: #d8dfd2;
+      --accent: #1f6f5f;
+      --accent-2: #2b8a78;
+      --code-bg: #f1f4ec;
     }
 
     * { box-sizing: border-box; }
@@ -19,45 +21,55 @@
     body {
       margin: 0;
       font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-      background: linear-gradient(140deg, #edf4e8 0%, var(--bg) 40%, #f7f9f4 100%);
+      background:
+        radial-gradient(circle at 5% 10%, #e8efe0 0 12%, transparent 13%),
+        radial-gradient(circle at 95% 90%, #e7f0e7 0 15%, transparent 16%),
+        var(--bg);
       color: var(--ink);
       line-height: 1.5;
     }
 
     .wrap {
-      max-width: 860px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 28px 16px 40px;
+      padding: 28px 18px 42px;
     }
 
     .hero {
-      margin-bottom: 14px;
+      background: linear-gradient(135deg, #1f6f5f, #2c8f74);
+      color: #f5fbf9;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(20, 40, 30, 0.2);
     }
 
-    h1 {
-      margin: 0;
-      font-size: 2rem;
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 1.9rem;
       letter-spacing: 0.2px;
-      color: var(--brand);
     }
 
-    .summary {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 1.02rem;
+    .hero p {
+      margin: 0;
+      color: #dbf3ec;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 16px;
     }
 
     .card {
-      margin-top: 18px;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 18px;
-      box-shadow: 0 6px 16px rgba(31, 58, 45, 0.08);
+      padding: 16px;
     }
 
     h2 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 1.2rem;
     }
 
@@ -67,47 +79,93 @@
     }
 
     ul {
-      margin: 8px 0 0;
+      margin: 8px 0;
       padding-left: 18px;
     }
 
     li { margin: 6px 0; }
 
     a {
-      color: var(--brand);
+      color: var(--accent);
       text-decoration-thickness: 2px;
       text-underline-offset: 2px;
     }
 
-    code {
-      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    a:hover { color: var(--accent-2); }
+
+    pre {
+      margin: 8px 0 0;
+      padding: 10px 12px;
+      background: var(--code-bg);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow-x: auto;
       font-size: 0.92rem;
-      background: #eef3ea;
-      padding: 1px 6px;
-      border-radius: 6px;
+    }
+
+    code {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.92rem;
+    }
+
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
     }
 
     @media (max-width: 640px) {
-      h1 { font-size: 1.6rem; }
+      .hero h1 { font-size: 1.5rem; }
+      .wrap { padding: 16px 12px 28px; }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="hero">
-      <h1>data.sakthipriyan.com</h1>
-      <p class="summary">Single published dataset for SBI Forex Card USD TT Buy and TT Sell history.</p>
+      <h1>financial-data / docs</h1>
+      <p>Published JSON endpoint for SBI Forex Card USD TT Buy/TT Sell history.</p>
     </section>
 
-    <article class="card">
-      <h2>SBI Forex Card Rates (USD)</h2>
-      <p>Compact yearly JSON for ITR reference with schema <code>{"header":["date","tt_buy","tt_sell"],"data":[...]}</code>.</p>
-      <ul>
-        <li>Latest year: <a href="./sbi-fx-card-rates/2026/USD.json">./sbi-fx-card-rates/2026/USD.json</a></li>
-        <li>Previous year: <a href="./sbi-fx-card-rates/2025/USD.json">./sbi-fx-card-rates/2025/USD.json</a></li>
-        <li>Path format: <code>./sbi-fx-card-rates/&lt;year&gt;/USD.json</code></li>
-      </ul>
-    </article>
+    <section class="grid">
+      <article class="card">
+        <h2>Available Data Source</h2>
+        <p>Only one source is currently published:</p>
+        <ul>
+          <li><strong>SBI Forex Card Rates (USD)</strong></li>
+          <li>Schema: <code>{"header":["date","tt_buy","tt_sell"],"data":[...]}</code></li>
+          <li>Files are split by year under <code>docs/sbi-fx-card-rates/&lt;year&gt;/USD.json</code></li>
+          <li>Source (historical): created from <a href="https://github.com/sahilgupta/sbi-fx-ratekeeper">sbi-fx-ratekeeper</a></li>
+          <li>Source (ongoing): from 2026-03-31 onwards, data is obtained directly from SBI site via scheduled sync</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Relative URL Examples</h2>
+        <ul>
+          <li><a href="./sbi-fx-card-rates/2026/USD.json">./sbi-fx-card-rates/2026/USD.json</a></li>
+          <li><a href="./sbi-fx-card-rates/2025/USD.json">./sbi-fx-card-rates/2025/USD.json</a></li>
+          <li><a href="./sbi-fx-card-rates/2024/USD.json">./sbi-fx-card-rates/2024/USD.json</a></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>GitHub Pages URL Examples</h2>
+        <p class="note">These are generated from the current page URL.</p>
+        <pre><code id="pages-example">Loading...</code></pre>
+      </article>
+    </section>
   </main>
+
+  <script>
+    (function () {
+      var base = window.location.href.replace(/index\.html$/, "");
+      var urls = [
+        base + "sbi-fx-card-rates/2026/USD.json",
+        base + "sbi-fx-card-rates/2025/USD.json",
+        base + "sbi-fx-card-rates/2024/USD.json"
+      ];
+      document.getElementById("pages-example").textContent = urls.join("\n");
+    }());
+  </script>
 </body>
 </html>

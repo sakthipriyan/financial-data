@@ -1,0 +1,67 @@
+name: Sync SBI FX card rates
+
+on:
+  schedule:
+    # 4:30 PM and 10:30 PM IST (10:30 AM and 4:30 PM UTC)
+    - cron: "30 10,16 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sbi-fx-card-rates-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    name: Download and sync SBI rates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Update latest PDF and JSON
+        run: python scripts/sbi_fx_card_rates_sync.py --repo-root . --fetch-latest
+
+      - name: Commit and push changes
+        if: success()
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: sync SBI FX card rates"
+          file_pattern: src/sbi-fx-card-rates/** data/sbi-fx-card-rates/**
+
+      - name: Create failure issue for notification
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const title = `SBI FX card rates sync failed (${new Date().toISOString().slice(0, 10)})`;
+            const body = [
+              "The scheduled SBI FX card rates workflow failed.",
+              "",
+              `Workflow: ${context.workflow}`,
+              `Run URL: ${runUrl}`,
+              `Triggered by: ${context.eventName}`,
+            ].join("\n");
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ["automation", "failure-notification"],
+            });

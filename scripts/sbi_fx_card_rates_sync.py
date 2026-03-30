@@ -32,7 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--repo-root",
         default=".",
-        help="Target repository root that contains src/ and data/ folders",
+        help="Target repository root that contains src/ and docs/ folders",
     )
     parser.add_argument(
         "--source-repo",
@@ -54,7 +54,7 @@ def parse_args() -> argparse.Namespace:
 
 def ensure_dirs(repo_root: Path) -> Tuple[Path, Path]:
     src_root = repo_root / "src" / "sbi-fx-card-rates"
-    data_root = repo_root / "data" / "sbi-fx-card-rates"
+    data_root = repo_root / "docs" / "sbi-fx-card-rates"
     src_root.mkdir(parents=True, exist_ok=True)
     data_root.mkdir(parents=True, exist_ok=True)
     return src_root, data_root

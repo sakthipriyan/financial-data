@@ -9,7 +9,7 @@ This repository stores SBI Forex Card reference PDFs and compact JSON time-serie
 ### Folder structure
 
 - `src/sbi-fx-card-rates/<year>/<yyyy-MM-dd>.pdf`
-- `data/sbi-fx-card-rates/<year>/USD.json`
+- `docs/sbi-fx-card-rates/<year>/USD.json`
 
 JSON format:
 

@@ -41,7 +41,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: sync SBI FX card rates"
-          file_pattern: src/sbi-fx-card-rates/** data/sbi-fx-card-rates/**
+          file_pattern: src/sbi-fx-card-rates/** docs/sbi-fx-card-rates/**
 
       - name: Create failure issue for notification
         if: failure()

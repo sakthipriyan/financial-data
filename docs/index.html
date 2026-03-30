@@ -3,17 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>financial-data docs</title>
+  <title>data.sakthipriyan.com</title>
   <style>
     :root {
-      --bg: #f7f8f2;
+      --bg: #f5f7f0;
+      --ink: #1d2527;
+      --muted: #546468;
       --card: #ffffff;
-      --ink: #1d2a2f;
-      --muted: #5f6f76;
-      --line: #d8dfd2;
-      --accent: #1f6f5f;
-      --accent-2: #2b8a78;
-      --code-bg: #f1f4ec;
+      --line: #d6dfd2;
+      --brand: #1f6f5f;
     }
 
     * { box-sizing: border-box; }
@@ -21,55 +19,41 @@
     body {
       margin: 0;
       font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 5% 10%, #e8efe0 0 12%, transparent 13%),
-        radial-gradient(circle at 95% 90%, #e7f0e7 0 15%, transparent 16%),
-        var(--bg);
+      background: linear-gradient(140deg, #edf4e8 0%, var(--bg) 40%, #f7f9f4 100%);
       color: var(--ink);
       line-height: 1.5;
     }
 
     .wrap {
-      max-width: 920px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 28px 18px 42px;
+      padding: 28px 16px 40px;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #1f6f5f, #2c8f74);
-      color: #f5fbf9;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(20, 40, 30, 0.2);
-    }
-
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: 1.9rem;
-      letter-spacing: 0.2px;
-    }
-
-    .hero p {
+    h1 {
       margin: 0;
-      color: #dbf3ec;
+      font-size: 2rem;
+      letter-spacing: 0.2px;
+      color: var(--brand);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 16px;
+    .summary {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
     }
 
     .card {
+      margin-top: 18px;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 16px;
+      padding: 18px;
+      box-shadow: 0 6px 16px rgba(31, 58, 45, 0.08);
     }
 
     h2 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 1.2rem;
     }
 
@@ -79,93 +63,47 @@
     }
 
     ul {
-      margin: 8px 0;
+      margin: 8px 0 0;
       padding-left: 18px;
     }
 
     li { margin: 6px 0; }
 
     a {
-      color: var(--accent);
+      color: var(--brand);
       text-decoration-thickness: 2px;
       text-underline-offset: 2px;
     }
 
-    a:hover { color: var(--accent-2); }
-
-    pre {
-      margin: 8px 0 0;
-      padding: 10px 12px;
-      background: var(--code-bg);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      overflow-x: auto;
-      font-size: 0.92rem;
-    }
-
     code {
-      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
       font-size: 0.92rem;
-    }
-
-    .note {
-      font-size: 0.92rem;
-      color: var(--muted);
+      background: #eef3ea;
+      padding: 1px 6px;
+      border-radius: 6px;
     }
 
     @media (max-width: 640px) {
-      .hero h1 { font-size: 1.5rem; }
-      .wrap { padding: 16px 12px 28px; }
+      h1 { font-size: 1.6rem; }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <section class="hero">
-      <h1>financial-data / docs</h1>
-      <p>Published JSON endpoint for SBI Forex Card USD TT Buy/TT Sell history.</p>
-    </section>
+    <h1>data.sakthipriyan.com</h1>
+    <p class="summary">Single published dataset for SBI Forex Card USD TT Buy and TT Sell history.</p>
 
-    <section class="grid">
-      <article class="card">
-        <h2>Available Data Source</h2>
-        <p>Only one source is currently published:</p>
-        <ul>
-          <li><strong>SBI Forex Card Rates (USD)</strong></li>
-          <li>Schema: <code>{"header":["date","tt_buy","tt_sell"],"data":[...]}</code></li>
-          <li>Files are split by year under <code>docs/sbi-fx-card-rates/&lt;year&gt;/USD.json</code></li>
-          <li>Source (historical): created from <a href="https://github.com/sahilgupta/sbi-fx-ratekeeper">sbi-fx-ratekeeper</a></li>
-          <li>Source (ongoing): from 2026-03-31 onwards, data is obtained directly from SBI site via scheduled sync</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>Relative URL Examples</h2>
-        <ul>
-          <li><a href="./sbi-fx-card-rates/2026/USD.json">./sbi-fx-card-rates/2026/USD.json</a></li>
-          <li><a href="./sbi-fx-card-rates/2025/USD.json">./sbi-fx-card-rates/2025/USD.json</a></li>
-          <li><a href="./sbi-fx-card-rates/2024/USD.json">./sbi-fx-card-rates/2024/USD.json</a></li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>GitHub Pages URL Examples</h2>
-        <p class="note">These are generated from the current page URL.</p>
-        <pre><code id="pages-example">Loading...</code></pre>
-      </article>
-    </section>
+    <article class="card">
+      <h2>SBI Forex Card Rates (USD)</h2>
+      <p>Compact yearly JSON for ITR reference with schema <code>{"header":["date","tt_buy","tt_sell"],"data":[...]}</code>.</p>
+      <ul>
+        <li>Latest year: <a href="./sbi-fx-card-rates/2026/USD.json">./sbi-fx-card-rates/2026/USD.json</a></li>
+        <li>Previous year: <a href="./sbi-fx-card-rates/2025/USD.json">./sbi-fx-card-rates/2025/USD.json</a></li>
+        <li>Path format: <code>./sbi-fx-card-rates/&lt;year&gt;/USD.json</code></li>
+        <li>Source (historical): created from <a href="https://github.com/sahilgupta/sbi-fx-ratekeeper">sbi-fx-ratekeeper</a></li>
+        <li>Source (ongoing): from 2026-03-31 onwards, data is obtained directly from SBI site via scheduled sync</li>
+      </ul>
+    </article>
   </main>
-
-  <script>
-    (function () {
-      var base = window.location.href.replace(/index\.html$/, "");
-      var urls = [
-        base + "sbi-fx-card-rates/2026/USD.json",
-        base + "sbi-fx-card-rates/2025/USD.json",
-        base + "sbi-fx-card-rates/2024/USD.json"
-      ];
-      document.getElementById("pages-example").textContent = urls.join("\n");
-    }());
-  </script>
 </body>
 </html>

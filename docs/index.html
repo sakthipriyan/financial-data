@@ -91,7 +91,7 @@
 <body>
   <main class="wrap">
     <h1>data.sakthipriyan.com</h1>
-    <p class="summary">Single published dataset for SBI Forex Card USD TT Buy and TT Sell history.</p>
+    <p class="summary">Published datasets for SBI Forex Card USD TT Buy/Sell history and India CPI Inflation index.</p>
 
     <article class="card">
       <h2>SBI Forex Card Rates (USD)</h2>
@@ -102,6 +102,17 @@
         <li>Path format: <code>./sbi-fx-card-rates/&lt;year&gt;/USD.json</code></li>
         <li>Source (historical): created from <a href="https://github.com/sahilgupta/sbi-fx-ratekeeper">sbi-fx-ratekeeper</a></li>
         <li>Source (ongoing): from 2026-03-31 onwards, data is obtained directly from SBI site via scheduled sync</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>India CPI Inflation Index</h2>
+      <p>Monthly India CPI Combined index (Base 2024=100) from January 2013 onwards, in a single JSON file.</p>
+      <ul>
+        <li>Dataset: <a href="./inflation/IN.json">./inflation/IN.json</a></li>
+        <li>Schema: <code>{"metadata":{...},"data":{"YYYYMM": index_value, ...}}</code></li>
+        <li>Coverage: January 2013 to present</li>
+        <li>Source: <a href="https://esankhyiki.mospi.gov.in/macroindicators?product=cpi">eSankhyiki — MoSPI CPI Macro Indicators</a></li>
       </ul>
     </article>
   </main>

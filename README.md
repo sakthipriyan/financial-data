@@ -83,7 +83,6 @@ The goal is to automate the fetching and consolidation of the following index / 
 | **USA** | Nasdaq 100 | Nasdaq-100 TR (XNDX) → Nasdaq Global Indexes | `CNDX.L` | IE00B53SZB19 | Jan 2010 |
 | **India** | India Broad (MSCI) | MSCI India Net TR → MSCI | `NDIA.L` | IE00BZCQB185 | May 2018 |
 | **Gold** | Global Gold (USD) | LBMA Gold Price PM → IBA licence | `IGLN.L` | IE00B4ND3602 | Apr 2011 |
-| **Debt** | US Short-Term Debt | ICE U.S. Treasury Short Bond Index (TR) → ICE Data Indices | `IB01.L` | IE00BGSF1X88 | Feb 2019 |
 
 ### 2. India
 
@@ -94,15 +93,33 @@ The goal is to automate the fetching and consolidation of the following index / 
 | **Equities** | Nifty Midcap 150 | Nifty Midcap 150 TRI → NSE Indices | `MID150BEES` | INF204KB1V68 | Jan 2019 |
 | **Equities** | Nifty Smallcap 250| Nifty Smallcap 250 TRI → NSE Indices | `HDFCSML250` | INF179KC1FB2 | Feb 2023 |
 | **Gold** | Domestic Gold (INR) | GOLDBEES NAV → ibjarates.com (cross-check) | `GOLDBEES` | INF204KB17I5 | Mar 2007 |
-| **Debt** | Indian Short-Term Debt | NIFTY 1D Rate Index → NSE Indices | `LIQUIDBEES` | INF204KB16I7 | Jul 2003 |
 | **Macro** | USD/INR (benchmark)| FBIL reference rate from Jul 2018 | — | — | — |
 | **Macro** | USD/INR (tax) | SBI TT buy/sell → daily PDF scraper | — | — | — |
 | **Macro** | India inflation | MoSPI CPI Combined (all-India) | — | — | — |
+
+### 3. Debt (US & India)
+
+| Region | Tier | Reference series (TR) → source | Investable series | ID | Starts |
+|:--|:--|:--|:--|:--|:--|
+| **US** | Short | ICE U.S. Treasury Short Bond Index → ICE (licensed) | iShares $ Treasury Bond 0-1yr UCITS ETF (Acc), `IB01` | IE00BGSF1X88 | Feb 2019 |
+| **US** | Long | ICE U.S. Treasury 7-10 Year Bond Index → ICE (licensed) | iShares $ Treasury Bond 7-10yr UCITS ETF (Acc), `CBU0` | IE00B3VWN518 | Jun 2009 |
+| **India** | Short | NIFTY Liquid Index A-I → NSE Indices | SBI Liquid Fund, Direct-Growth | INF200K01UT4 | Jan 2013 |
+| **India** | Long | NIFTY All Duration G-Sec Index → NSE Indices (confirm the factsheet) | SBI Gilt Fund, Direct-Growth | INF200K01SH3 | Jan 2013 |
+
+**Why 7-10 yr rather than 20+ for US long**
+- **Duration:** SBI Gilt's manager sets duration, so neither US bucket matches it exactly. The 7-10 yr fund is the nearer and less extreme match, since 20+ yr is far longer by definition.
+- **Fallback:** If you'd rather have a longer-duration US bucket, swap in `DTLA` (IE00BFM6TC58) instead.
+
+**If you later want three tiers on each side**
+- **US:** IB01, CBU0 and DTLA.
+- **India:** SBI Liquid, SBI Constant Maturity 10 Year Gilt Fund (INF200K01SK7) and SBI Gilt.
 
 ### Implementation Notes
 - **Net vs gross**: Use MSCI Net to match the Irish accumulating funds. NSE TRIs are what the Indian ETFs track. Check S&P and Nasdaq factsheet benchmark tickers to ensure gross/net alignment.
 - **Price series**: Use the issuer's **NAV history** for every proxy row rather than exchange closes.
 - **Licensing**: For anything public, publish only the issuer NAV series. Compute pre-inception history privately as MSCI/ICE/LBMA/FBIL restrict commercial redistribution.
 - **Breaks**: GOLDBEES NAV valuation changed on 1 Apr 2026 to exchange-polled spot prices.
-- **LIQUIDBEES NAV**: Exchange price is pegged to ₹1000 and growth is paid via fractional units. The data builder MUST fetch the pure `NIFTY 1D Rate Index` (TRI) to represent its compounding returns mathematically.
 - **Back-calculations**: Midcap 150 and Smallcap 250 values before Apr 2016 are back-calculated. The NIFTY Composite Debt Index A-III is back-calculated before Apr 2022.
+
+- **Splices:** The `CBU0` index changed in 2014 and 2016.
+- **ISINs:** The Indian ISINs come from aggregator and Paytm Money URLs, so confirm them against AMFI.

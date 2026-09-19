@@ -94,8 +94,7 @@ The goal is to automate the fetching and consolidation of the following index / 
 | **Equities** | Nifty Midcap 150 | Nifty Midcap 150 TRI → NSE Indices | `MID150BEES` | INF204KB1V68 | Jan 2019 |
 | **Equities** | Nifty Smallcap 250| Nifty Smallcap 250 TRI → NSE Indices | `HDFCSML250` | INF179KC1FB2 | Feb 2023 |
 | **Gold** | Domestic Gold (INR) | GOLDBEES NAV → ibjarates.com (cross-check) | `GOLDBEES` | INF204KB17I5 | Mar 2007 |
-| **Debt** | Duration-flexible debt | NIFTY Composite Debt Index A-III → NSE Indices | *fund-specific* | *fund-specific* | *fund-specific* |
-| **Debt** | Long G-Sec (duration)| Nifty 10 yr Benchmark G-Sec Index → NSE Indices | `LTGILTBEES` | INF204KB1882 | Jul 2016 |
+| **Debt** | Indian Short-Term Debt | NIFTY 1D Rate Index → NSE Indices | `LIQUIDBEES` | INF204KB16I7 | Jul 2003 |
 | **Macro** | USD/INR (benchmark)| FBIL reference rate from Jul 2018 | — | — | — |
 | **Macro** | USD/INR (tax) | SBI TT buy/sell → daily PDF scraper | — | — | — |
 | **Macro** | India inflation | MoSPI CPI Combined (all-India) | — | — | — |
@@ -105,4 +104,5 @@ The goal is to automate the fetching and consolidation of the following index / 
 - **Price series**: Use the issuer's **NAV history** for every proxy row rather than exchange closes.
 - **Licensing**: For anything public, publish only the issuer NAV series. Compute pre-inception history privately as MSCI/ICE/LBMA/FBIL restrict commercial redistribution.
 - **Breaks**: GOLDBEES NAV valuation changed on 1 Apr 2026 to exchange-polled spot prices.
+- **LIQUIDBEES NAV**: Exchange price is pegged to ₹1000 and growth is paid via fractional units. The data builder MUST fetch the pure `NIFTY 1D Rate Index` (TRI) to represent its compounding returns mathematically.
 - **Back-calculations**: Midcap 150 and Smallcap 250 values before Apr 2016 are back-calculated. The NIFTY Composite Debt Index A-III is back-calculated before Apr 2022.

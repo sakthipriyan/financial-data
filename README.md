@@ -66,3 +66,43 @@ Fetch latest rates once:
 ```bash
 python scripts/sbi_fx_card_rates_sync.py --repo-root . --fetch-latest
 ```
+
+## Target Dataset Specification
+
+The goal is to automate the fetching and consolidation of the following index / proxy streams.
+
+### 1. International (Irish accumulating only)
+
+| Category | Exposure | Reference series (TR) → source | Irish Acc proxy | ISIN | Proxy start |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **All** | All World (DM + EM) | MSCI ACWI Net TR → MSCI index-data search | `SSAC.L` | IE00B6R52259 | Oct 2011 |
+| **DM** | Developed Markets | MSCI World Net TR → MSCI | `SWDA.L` | IE00B4L5Y983 | Sep 2009 |
+| **EM** | Emerging Markets | MSCI EM Net TR → MSCI | `SEMA.L` | IE00B4L5YC18 | Sep 2009 |
+| **USA** | US Broad (MSCI USA) | MSCI USA Net TR → MSCI | `CSUS.L` | IE00B52SFT06 | Jan 2010 |
+| **USA** | S&P 500 | S&P 500 TR → S&P Dow Jones Indices | `CSPX.L` | IE00B5BMR087 | May 2010 |
+| **USA** | Nasdaq 100 | Nasdaq-100 TR (XNDX) → Nasdaq Global Indexes | `CNDX.L` | IE00B53SZB19 | Jan 2010 |
+| **India** | India Broad (MSCI) | MSCI India Net TR → MSCI | `NDIA.L` | IE00BZCQB185 | May 2018 |
+| **Gold** | Global Gold (USD) | LBMA Gold Price PM → IBA licence | `IGLN.L` | IE00B4ND3602 | Apr 2011 |
+| **Debt** | US Short-Term Debt | ICE U.S. Treasury Short Bond Index (TR) → ICE Data Indices | `IB01.L` | IE00BGSF1X88 | Feb 2019 |
+
+### 2. India
+
+| Category | Exposure | Reference series (TR) → source | Investable proxy | ISIN | Proxy start |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Equities** | Nifty 50 | Nifty 50 TRI → niftyindices.com | `NIFTYBEES` | INF204KB14I2 | Dec 2001 |
+| **Equities** | Nifty Next 50 | Nifty Next 50 TRI → NSE Indices | `JUNIORBEES` | INF732E01045 | Feb 2003 |
+| **Equities** | Nifty Midcap 150 | Nifty Midcap 150 TRI → NSE Indices | `MID150BEES` | INF204KB1V68 | Jan 2019 |
+| **Equities** | Nifty Smallcap 250| Nifty Smallcap 250 TRI → NSE Indices | `HDFCSML250` | INF179KC1FB2 | Feb 2023 |
+| **Gold** | Domestic Gold (INR) | GOLDBEES NAV → ibjarates.com (cross-check) | `GOLDBEES` | INF204KB17I5 | Mar 2007 |
+| **Debt** | Duration-flexible debt | NIFTY Composite Debt Index A-III → NSE Indices | *fund-specific* | *fund-specific* | *fund-specific* |
+| **Debt** | Long G-Sec (duration)| Nifty 10 yr Benchmark G-Sec Index → NSE Indices | `LTGILTBEES` | INF204KB1882 | Jul 2016 |
+| **Macro** | USD/INR (benchmark)| FBIL reference rate from Jul 2018 | — | — | — |
+| **Macro** | USD/INR (tax) | SBI TT buy/sell → daily PDF scraper | — | — | — |
+| **Macro** | India inflation | MoSPI CPI Combined (all-India) | — | — | — |
+
+### Implementation Notes
+- **Net vs gross**: Use MSCI Net to match the Irish accumulating funds. NSE TRIs are what the Indian ETFs track. Check S&P and Nasdaq factsheet benchmark tickers to ensure gross/net alignment.
+- **Price series**: Use the issuer's **NAV history** for every proxy row rather than exchange closes.
+- **Licensing**: For anything public, publish only the issuer NAV series. Compute pre-inception history privately as MSCI/ICE/LBMA/FBIL restrict commercial redistribution.
+- **Breaks**: GOLDBEES NAV valuation changed on 1 Apr 2026 to exchange-polled spot prices.
+- **Back-calculations**: Midcap 150 and Smallcap 250 values before Apr 2016 are back-calculated. The NIFTY Composite Debt Index A-III is back-calculated before Apr 2022.
